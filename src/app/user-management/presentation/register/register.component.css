@@ -1,0 +1,268 @@
+/* 1. Centramos todo el componente en la pantalla usando :host */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Toma el 100% del alto de la ventana */
+  background-color: #f0f2f5; /* Un color de fondo gris muy suave */
+}
+
+/* 2. Estilos de la tarjeta principal */
+.login-container {
+  width: 100%;
+  max-width: 420px; /* Ancho máximo de la tarjeta */
+  padding: 40px 30px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box; /* Evita que el padding rompa el ancho */
+}
+
+h2 {
+  text-align: center;
+  color: #333333;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 24px;
+}
+
+/* 3. Organización de cada campo (Label + Input) */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555555;
+  font-size: 14px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 6px;
+  font-size: 15px;
+  transition: all 0.3s ease; /* Animación suave al hacer clic */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Efecto cuando el usuario hace clic en el input */
+input:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+}
+
+/* ---------------------------------------------------
+   NUEVO: Estilos específicos para el Checkbox
+-----------------------------------------------------*/
+.checkbox-group {
+  flex-direction: row; /* Para que el texto y el cuadro estén en la misma línea */
+  align-items: center; /* Centrado vertical */
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto; /* Quitamos el 100% de ancho */
+  margin-right: 10px; /* Separación con el texto */
+  margin-top: 0;
+  cursor: pointer;
+  transform: scale(1.2); /* Lo hacemos un poquito más grande para que sea fácil darle clic */
+}
+
+.checkbox-group label {
+  margin-bottom: 0;
+  cursor: pointer;
+  font-weight: normal; /* Para diferenciarlo de los títulos de los otros inputs */
+}
+
+/* 4. Estilos para los botones */
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff; /* Azul moderno */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+button:disabled {
+  background-color: #9abce3; /* Color apagado si está deshabilitado */
+  cursor: not-allowed;
+}
+
+/* 5. Manejo de errores */
+.error {
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.error-box {
+  background-color: #f8d7da;
+  color: #842029;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  border: 1px solid #f5c2c7;
+  text-align: center;
+  font-size: 14px;
+}
+
+/* 6. Enlace del pie de página */
+.register-link {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+  color: #666666;
+}
+
+.register-link a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* Contenedor flotante en la esquina superior derecha */
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 350px;
+  width: 100%;
+}
+
+/* Tarjeta base */
+.toast-notification {
+  display: flex;
+  align-items: flex-start;
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  font-family: 'Segoe UI', sans-serif;
+  animation: slideIn 0.3s ease-out;
+  border-left: 5px solid transparent;
+}
+
+.error-toast {
+  border-left-color: #dc3545;
+}
+
+.error-toast strong {
+  color: #dc3545;
+}
+
+.success-toast {
+  border-left-color: #198754;
+}
+
+.success-toast strong {
+  color: #198754;
+}
+
+.toast-notification .icon {
+  font-size: 20px;
+  margin-right: 12px;
+  margin-top: 2px;
+}
+
+.message-content {
+  flex-grow: 1;
+}
+
+.message-content strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+
+.message-content p {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 0 0 10px;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #333;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Alinea el botón atrás con el título de la tarjeta */
+.register-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.register-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+/* Botón flecha minimalista */
+.btn-back-link {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #64748b;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+
+.btn-back-link:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+  border-color: #cbd5e1;
+}

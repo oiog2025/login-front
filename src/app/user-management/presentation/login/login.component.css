@@ -1,0 +1,234 @@
+/* 1. Centramos todo el componente en la pantalla usando :host */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f8fafc; /* Gris azulado sutil y moderno */
+}
+
+/* 2. Estilos de la tarjeta de inicio de sesión */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  color: #0f172a;
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* 3. Estilos para los campos del formulario */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #475569;
+  font-size: 14px;
+}
+
+input {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 15px;
+  background-color: #f8fafc;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* 4. Botón de Enviar (Entrar) */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  background-color: #3b82f6; /* Azul moderno */
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+button[type="submit"]:disabled {
+  background-color: #94a3b8;
+  color: #f1f5f9;
+  cursor: not-allowed;
+  opacity: 0.8;
+}
+
+/* 5. Mensajes de error debajo de los inputs */
+.error {
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+/* 6. Enlace inferior para ir a Registrarse */
+.register-link {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.register-link a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link a:hover {
+  text-decoration: underline;
+}
+
+/* ---------------------------------------------------
+   PREMIUM: Notificaciones Flotantes Corregidas (Toasts)
+-----------------------------------------------------*/
+.notification-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 360px;
+  width: calc(100% - 48px);
+}
+
+.toast-notification {
+  display: flex;
+  align-items: center; /* Alinea icono, texto y cruz perfectamente */
+  background: #ffffff;
+  padding: 16px 20px;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid transparent;
+  animation: slideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.error-toast {
+  border-left-color: #ef4444;
+  background-color: #fef2f2; /* Fondo rojizo suave */
+}
+
+.error-toast strong {
+  color: #ef4444;
+}
+
+.success-toast {
+  border-left-color: #10b981;
+  background-color: #f0fdf4; /* Fondo verdoso suave */
+}
+
+.success-toast strong {
+  color: #10b981;
+}
+
+.toast-notification .icon {
+  font-size: 1.25rem;
+  margin-right: 14px;
+  display: flex;
+  align-items: center;
+}
+
+.message-content {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.message-content strong {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.message-content p {
+  margin: 0;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* El botón de cierre (X) estilizado y minimalista */
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.25rem;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px 8px;
+  margin-left: 12px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #1e293b;
+}
+
+/* Animación de entrada fluida */
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Modificamos ligeramente tu tarjeta para que flote con estilo glassmorphism */
+.login-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px 30px;
+  background-color: rgba(255, 255, 255, 0.96); /* Blanco semi-transparente muy sutil */
+  backdrop-filter: blur(8px); /* Desenfoque fino de las luces de fondo */
+  border-radius: 12px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-sizing: border-box;
+}

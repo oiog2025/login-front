@@ -1,0 +1,93 @@
+<div class="login-container">
+  <div class="register-header">
+    <button (click)="goBack()" class="btn-back-link" title="Volver" type="button">
+      ←
+    </button>
+    <h2>Crear Cuenta</h2>
+  </div>
+
+  <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+
+    <div class="form-group">
+      <label for="name">Nombre Completo</label>
+      <input
+        formControlName="name"
+        id="name"
+        placeholder="Juan Pérez"
+        type="text"
+      >
+      @if (registerForm.get('name')?.touched && registerForm.get('name')?.invalid) {
+        <span class="error">El nombre es obligatorio (min. 3 caracteres).</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="username">Correo Electrónico</label>
+      <input
+        formControlName="username"
+        id="username"
+        placeholder="ejemplo@correo.com"
+        type="email"
+      >
+      @if (registerForm.get('username')?.touched && registerForm.get('username')?.invalid) {
+        <span class="error">Ingresa un correo válido.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Contraseña</label>
+      <input
+        formControlName="password"
+        id="password"
+        placeholder="********"
+        type="password"
+      >
+      @if (registerForm.get('password')?.touched && registerForm.get('password')?.invalid) {
+        <span class="error">La contraseña debe tener al menos 6 caracteres.</span>
+      }
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label>
+        <input
+          formControlName="isActive"
+          type="checkbox"
+        >
+        ¿Activar usuario inmediatamente?
+      </label>
+    </div>
+
+    <button [disabled]="registerForm.invalid || isLoading()" type="submit">
+      {{ isLoading() ? 'Creando cuenta...' : 'Registrarse' }}
+    </button>
+
+    <div class="register-link" style="margin-top: 15px; text-align: center;">
+      <p>¿Ya tienes una cuenta? <a routerLink="/login">Inicia sesión</a></p>
+    </div>
+
+    <div class="notification-container">
+      @if (errorMessage()) {
+        <div class="toast-notification error-toast">
+          <span class="icon">❌</span>
+          <div class="message-content">
+            <strong>Error de Registro</strong>
+            <p>{{ errorMessage() }}</p>
+          </div>
+          <button (click)="errorMessage.set(null)" class="close-btn" type="button">&times;</button>
+        </div>
+      }
+
+      @if (successMessage()) {
+        <div class="toast-notification success-toast">
+          <span class="icon">✅</span>
+          <div class="message-content">
+            <strong>¡Excelente!</strong>
+            <p>{{ successMessage() }}</p>
+          </div>
+          <button (click)="successMessage.set(null)" class="close-btn" type="button">&times;</button>
+        </div>
+      }
+    </div>
+
+  </form>
+</div>

@@ -1,0 +1,56 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+    <h3>Editar Usuario</h3>
+    <p class="subtitle">Modificando a: <strong>{{ user?.email }}</strong></p>
+
+    <form (ngSubmit)="onUpdateSubmit()" [formGroup]="editForm">
+
+      <div class="form-group">
+        <label for="edit-name">Nombre Completo</label>
+        <input formControlName="name" id="edit-name" placeholder="Nombre del usuario" type="text">
+        @if (editForm.get('name')?.touched && editForm.get('name')?.invalid) {
+          <span class="error-text">El nombre debe tener al menos 3 caracteres.</span>
+        }
+      </div>
+
+      <div class="form-group checkbox-group">
+        <label>
+          <input formControlName="isActive" type="checkbox">
+          Usuario Activo
+        </label>
+      </div>
+
+      <div class="modal-actions">
+        <button (click)="closeModal()" class="btn-cancel" type="button">Cancelar</button>
+        <button [disabled]="editForm.invalid || isLoading()" class="btn-save" type="submit">
+          {{ isLoading() ? 'Guardando...' : 'Guardar Cambios' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="notification-container">
+    @if (errorMessage()) {
+      <div class="toast-notification error-toast">
+        <span class="icon">❌</span>
+        <div class="message-content">
+          <strong>Error de Edición</strong>
+          <p>{{ errorMessage() }}</p>
+        </div>
+        <button (click)="errorMessage.set(null)" class="close-btn" type="button">&times;</button>
+      </div>
+    }
+
+    @if (successMessage()) {
+      <div class="toast-notification success-toast">
+        <span class="icon">✅</span>
+        <div class="message-content">
+          <strong>¡Actualizado!</strong>
+          <p>{{ successMessage() }}</p>
+        </div>
+        <button (click)="successMessage.set(null)" class="close-btn" type="button">&times;</button>
+      </div>
+    }
+  </div>
+</div>

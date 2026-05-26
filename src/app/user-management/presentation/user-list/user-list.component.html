@@ -1,0 +1,94 @@
+<div class="dashboard-container">
+  <div class="header">
+    <div class="header-title-area">
+      <button (click)="goBack()" class="btn-back-link" title="Volver">
+        ←
+      </button>
+      <h2>Gestión de Usuarios</h2>
+    </div>
+    <div class="header-actions">
+      <span class="user-count-badge">{{ users().length }} usuarios</span>
+
+      <button (click)="logout()" class="btn-logout" title="Cerrar sesión segura" type="button">
+        <span class="icon">🚪</span> Cerrar Sesión
+      </button>
+
+    </div>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  } @else if (errorMessage()) {
+    <div class="error-box">
+      <span class="error-icon">⚠️</span>
+      <p>{{ errorMessage() }}</p>
+    </div>
+  } @else {
+    <div class="table-responsive">
+      <table class="custom-table">
+        <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Correo Electrónico</th>
+          <th>Estado</th>
+          <th class="text-right">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (user of users(); track user.email) {
+            <tr>
+              <td class="font-medium">{{ user.name }}</td>
+              <td class="text-muted">{{ user.email }}</td>
+              <td>
+                <span [class.active]="user.isActive" [class.inactive]="!user.isActive" class="status-badge">
+                  {{ user.isActive ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td class="actions text-right">
+                <button (click)="openEditModal(user)" class="btn-action-edit">Editar</button>
+                <button (click)="openDeleteModal(user.id)" class="btn-action-delete">Eliminar</button>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td class="empty-row" colspan="4">
+                <div class="empty-state">
+                  <p>No hay usuarios registrados en el sistema.</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (isDeleteModalOpen()) {
+    <div class="modal-overlay">
+      <div class="modal-container">
+        <h3>Eliminar Usuario</h3>
+        <p>¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.</p>
+
+        <div class="modal-actions">
+          <button (click)="closeDeleteModal()" [disabled]="isLoading()" class="btn-cancel" type="button">
+            Cancelar
+          </button>
+          <button (click)="confirmDeleteUser()" [disabled]="isLoading()" class="btn-danger" type="button">
+            {{ isLoading() ? 'Eliminando...' : 'Sí, eliminar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isModalOpen()) {
+    <app-user-edit-modal
+      (close)="closeModal()"
+      (saved)="onUserSaved()"
+      [user]="selectedUser()">
+    </app-user-edit-modal>
+  }
+</div>
