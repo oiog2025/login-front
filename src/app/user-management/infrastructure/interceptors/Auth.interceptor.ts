@@ -10,15 +10,18 @@ import {inject} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable, throwError} from 'rxjs';
 import {catchError, filter, switchMap, take} from 'rxjs/operators';
+import {CryptoStorageService} from '../services/CryptoStorageService';
 
 // Variables globales
 let isRefreshing = false;
 let refreshTokenSubject = new BehaviorSubject<string | null>(null);
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-  const token = localStorage.getItem('access_token');
+  const cryptoStorage = inject(CryptoStorageService);
+  const token = cryptoStorage.getItem('access_token');
   const http = inject(HttpClient);
   const router = inject(Router);
+
 
   let authReq = req;
   if (token) {
@@ -35,7 +38,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         !req.url.includes('/login') &&
         !req.url.includes('/refresh-token')
       ) {
-        return handle401Error(authReq, next, http, router);
+        return handle401Error(authReq, next, http, router, cryptoStorage);
       }
       return throwError(() => error);
     })
@@ -47,14 +50,15 @@ const handle401Error = (
   req: HttpRequest<unknown>,
   next: HttpHandlerFn,
   http: HttpClient,
-  router: Router
+  router: Router,
+  cryptoStorage: CryptoStorageService,
 ): Observable<HttpEvent<unknown>> => {
 
   if (!isRefreshing) {
     isRefreshing = true;
     refreshTokenSubject.next(null);
 
-    const refreshToken = localStorage.getItem('refresh_token');
+    const refreshToken = cryptoStorage.getItem('refresh_token');
 
     if (refreshToken) {
       return http.post<any>('http://localhost:8080/api/auth/refresh-token', {refreshToken}).pipe(

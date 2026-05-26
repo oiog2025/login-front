@@ -1,57 +1,41 @@
-import { APP_BASE_HREF } from '@angular/common';
-import { CommonEngine } from '@angular/ssr';
+import {APP_BASE_HREF} from '@angular/common';
 import express from 'express';
-import { fileURLToPath } from 'node:url';
-import { dirname, join, resolve } from 'node:path';
-import bootstrap from './src/main.server';
+import {fileURLToPath} from 'node:url';
+import {dirname, join, resolve} from 'node:path';
 
-// The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
-  const server = express();
-  const serverDistFolder = dirname(fileURLToPath(import.meta.url));
-  const browserDistFolder = resolve(serverDistFolder, '../browser');
-  const indexHtml = join(serverDistFolder, 'index.server.html');
+const app = express();
+const serverDistFolder = dirname(fileURLToPath(import.meta.url));
+const browserDistFolder = resolve(serverDistFolder, '../browser');
+const indexHtml = join(serverDistFolder, 'index.server.html');
 
-  const commonEngine = new CommonEngine();
+// NOTA: En las versiones nuevas de Angular, el renderizado se simplificó así:
+app.set('view engine', 'html');
+app.set('views', browserDistFolder);
 
-  server.set('view engine', 'html');
-  server.set('views', browserDistFolder);
+// Servir archivos estáticos desde /browser
+app.get('**', express.static(browserDistFolder, {
+  maxAge: '1y',
+  index: 'index.html',
+}));
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
-  server.get('**', express.static(browserDistFolder, {
-    maxAge: '1y',
-    index: 'index.html',
-  }));
+// Todos los demás paths usan el motor de Angular SSR de forma directa
+app.get('**', (req, res, next) => {
+  const {protocol, originalUrl, headers} = req;
 
-  // All regular routes use the Angular engine
-  server.get('**', (req, res, next) => {
-    const { protocol, originalUrl, baseUrl, headers } = req;
-
-    commonEngine
-      .render({
-        bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: browserDistFolder,
-        providers: [{ provide: APP_BASE_HREF, useValue: baseUrl }],
-      })
-      .then((html) => res.send(html))
-      .catch((err) => next(err));
+  // Si tu versión usa la nueva API simplificada de Angular SSR:
+  res.render(indexHtml, {
+    req,
+    providers: [{provide: APP_BASE_HREF, useValue: req.baseUrl}],
+  }, (err: Error | null | undefined, html: string | undefined) => {
+    // ◄-- Aquí tipamos explícitamente err y html para corregir el error TS7006
+    if (err) {
+      return next(err);
+    }
+    res.send(html);
   });
+});
 
-  return server;
-}
-
-function run(): void {
-  const port = process.env['PORT'] || 4000;
-
-  // Start up the Node server
-  const server = app();
-  server.listen(port, () => {
-    console.log(`Node Express server listening on http://localhost:${port}`);
-  });
-}
-
-run();
+const port = process.env['PORT'] || 4000;
+app.listen(port, () => {
+  console.log(`Node Express server listening on http://localhost:${port}`);
+});

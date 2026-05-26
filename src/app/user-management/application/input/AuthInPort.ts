@@ -3,7 +3,7 @@ export interface AuthTokens {
   refreshToken: string;
 }
 
-export abstract class AuthUseCase {
+export abstract class AuthInPort {
 
   abstract login(email: string, password: string): Promise<string | null>;
 

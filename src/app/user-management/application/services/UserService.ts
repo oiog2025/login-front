@@ -1,12 +1,12 @@
 import {inject, Injectable} from '@angular/core';
 import {UserRepository} from '../output/UserRepository';
 import {User} from '../../domain/User';
-import {UserUseCase} from '../input/UserUseCase';
+import {UserInPort} from '../input/UserInPort';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService implements UserUseCase {
+export class UserService implements UserInPort {
 
   private readonly userRepository = inject(UserRepository);
 

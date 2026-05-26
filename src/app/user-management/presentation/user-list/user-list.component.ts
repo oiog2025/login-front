@@ -1,5 +1,5 @@
 import {Component, inject, OnInit, signal} from '@angular/core';
-import {UserUseCase} from '../../application/input/UserUseCase';
+import {UserInPort} from '../../application/input/UserInPort';
 import {User} from '../../domain/User';
 import {UserEditModalComponent} from '../user-edit-modal/user-edit-modal.component';
 import {Router} from '@angular/router';
@@ -24,7 +24,7 @@ export class UserListComponent implements OnInit {
   // Nuevos Signals para el Modal de Eliminación
   public isDeleteModalOpen = signal<boolean>(false);
   public userToDeleteId = signal<number | null>(null);
-  private userUseCase = inject(UserUseCase);
+  private userUseCase = inject(UserInPort);
   private router = inject(Router);
   private authService = inject(AuthService);
 

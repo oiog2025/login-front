@@ -1,12 +1,12 @@
 import {inject, Injectable} from '@angular/core';
-import {AuthTokens, AuthUseCase} from '../input/AuthUseCase';
+import {AuthTokens, AuthInPort} from '../input/AuthInPort';
 import {UserRepository} from '../output/UserRepository';
 import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService implements AuthUseCase {
+export class AuthService implements AuthInPort {
   private readonly userRepository = inject(UserRepository);
   private readonly router = inject(Router);
 

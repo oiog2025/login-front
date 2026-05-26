@@ -1,7 +1,7 @@
 import {Component, inject, signal} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import {UserUseCase} from '../../application/input/UserUseCase';
+import {UserInPort} from '../../application/input/UserInPort';
 import {User} from '../../domain/User';
 
 @Component({
@@ -23,7 +23,7 @@ export class RegisterComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
     isActive: [true]
   });
-  private userUseCase = inject(UserUseCase);
+  private userUseCase = inject(UserInPort);
   private router = inject(Router);
 
   async onSubmit() {
@@ -62,7 +62,7 @@ export class RegisterComponent {
     } catch (error: any) {
       console.error('Error al crear usuario:', error);
       // Extraemos el mensaje de error del backend si existe
-      this.errorMessage = error?.error?.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.';
+      this.errorMessage.set(error?.error?.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');
       this.showError(error?.error?.message || 'Error al crear la cuenta. Por favor, intenta de nuevo.');
     } finally {
       this.isLoading.set(false);

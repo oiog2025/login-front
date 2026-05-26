@@ -1,5 +1,5 @@
 import {User} from '../../domain/User';
-import {AuthTokens} from '../input/AuthUseCase';
+import {AuthTokens} from '../input/AuthInPort';
 
 export abstract class UserRepository {
 

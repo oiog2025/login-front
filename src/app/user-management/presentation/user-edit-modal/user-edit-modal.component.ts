@@ -1,7 +1,7 @@
 import {Component, EventEmitter, inject, Input, OnChanges, Output, signal, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {User} from '../../domain/User';
-import {UserUseCase} from '../../application/input/UserUseCase';
+import {UserInPort} from '../../application/input/UserInPort';
 
 @Component({
   selector: 'app-user-edit-modal',
@@ -28,7 +28,7 @@ export class UserEditModalComponent implements OnChanges {
     name: ['', [Validators.required, Validators.minLength(3)]],
     isActive: [true]
   });
-  private userUseCase = inject(UserUseCase);
+  private userUseCase = inject(UserInPort);
 
   // Reacciona cuando el padre cambia el usuario seleccionado
   ngOnChanges(changes: SimpleChanges) {

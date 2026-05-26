@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {firstValueFrom} from 'rxjs';
 import {UserRepository} from '../../application/output/UserRepository';
 import {User} from '../../domain/User';
-import {AuthTokens} from '../../application/input/AuthUseCase';
+import {AuthTokens} from '../../application/input/AuthInPort';
 import {ApiResponseDto} from '../dtos/ApiResponseDto';
 import {TokenResponseDTO} from '../dtos/TokenResponseDTO';
 import {UserBackendDto} from '../dtos/UserBackendDto';
@@ -75,5 +75,5 @@ export class UserHttpAdapter implements UserRepository {
     const response = await firstValueFrom(request$);
     return response.data.refreshToken
   }
-  
+
 }
