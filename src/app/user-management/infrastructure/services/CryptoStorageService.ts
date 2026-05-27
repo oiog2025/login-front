@@ -7,7 +7,6 @@ import * as CryptoJS from 'crypto-js';
 export class CryptoStorageService {
 
   setItem(key: string, value: string) {
-
     const encryptedValue = CryptoJS.AES.encrypt(value, key).toString();
     localStorage.setItem(key, encryptedValue);
   }
