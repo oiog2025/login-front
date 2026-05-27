@@ -45,8 +45,8 @@ El módulo `user-management` está organizado por responsabilidades:
 
 La inyección de dependencias se configura en [`src/app/app.config.ts`](/Users/oospina/Documents/davivienda/loginFront/src/app/app.config.ts), donde:
 
-- `AuthInPort` se resuelve con `AuthService`
-- `UserInPort` se resuelve con `UserService`
+- `AuthUseCase` se resuelve con `AuthService`
+- `UserUseCase` se resuelve con `UserService`
 - `UserRepository` se resuelve con `UserHttpAdapter`
 
 Esto permite mantener la UI desacoplada de la implementación HTTP concreta.
@@ -73,8 +73,8 @@ Presentation
         |
         v
 Application Input
-  AuthInPort
-  UserInPort
+  AuthUseCase
+  UserUseCase
         |
         v
 Application Services
@@ -108,7 +108,7 @@ Backend REST API
 Ejemplo: carga del listado de usuarios
 
 1. [`UserListComponent`](/Users/oospina/Documents/davivienda/loginFront/src/app/user-management/presentation/user-list/user-list.component.ts) invoca `userUseCase.getAllUsers()`.
-2. Angular resuelve `UserInPort` con `UserService`.
+2. Angular resuelve `UserUseCase` con `UserService`.
 3. `UserService` delega en `UserRepository`.
 4. Angular resuelve `UserRepository` con `UserHttpAdapter`.
 5. `UserHttpAdapter` ejecuta `GET /users` con `HttpClient`.
