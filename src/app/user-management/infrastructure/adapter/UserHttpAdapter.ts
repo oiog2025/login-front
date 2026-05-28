@@ -73,7 +73,7 @@ export class UserHttpAdapter implements UserRepository {
       refreshToken: refreshToken
     });
     const response = await firstValueFrom(request$);
-    return response.data.refreshToken
+    return response.data?.refreshToken ?? null;
   }
 
 }
